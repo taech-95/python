@@ -8,19 +8,18 @@ output=[]
 indexer=0
 for i in chosen_word:
     output+="_"
-
 print(output)
-# print(type(output))
-# user letter
-guess = input("Chose a letter: \n").lower()
-print(guess)
-indexer =0
-#testing if chosen word contain user letter
-for i in chosen_word:
-    if chosen_word[indexer] == guess:
-        print ("Right") 
-        output[indexer] = guess 
-    else:
-        print("Wrong")
-    indexer+=1
-print(output)
+flag ="_"
+gameOver = False
+while gameOver == False:
+    guess = input("Chose a letter: \n").lower()
+    for i in range(len(chosen_word)):
+        if chosen_word[i] == guess:
+            output[i] = guess 
+    # else:
+    #    #print("Wrong")
+    if flag not in output:
+        print("You win")
+        gameOver = True
+    print(output)
+print("Game Over")
