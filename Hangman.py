@@ -1,19 +1,26 @@
 import random
 #picking random word and checking answer
-word_list=["ukraine", "poland", "usa","germany","france","football", "destiny"]
+word_list=["ukraine", "poland", "usa","modern","soccer","shakhtar","germany","france","football", "destiny"]
 chosen_word = random.choice(word_list)
-
 print (chosen_word)
-output =""
+#preparing output
+output=[]
+indexer=0
 for i in chosen_word:
-    output+="_ "
+    output+="_"
 
-# print(output)
+print(output)
 # print(type(output))
+# user letter
 guess = input("Chose a letter: \n").lower()
-# print(guess)
+print(guess)
 indexer =0
+#testing if chosen word contain user letter
 for i in chosen_word:
     if chosen_word[indexer] == guess:
-        print ("true")
-# print(output)
+        print ("Right") 
+        output[indexer] = guess 
+    else:
+        print("Wrong")
+    indexer+=1
+print(output)
