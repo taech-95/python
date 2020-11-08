@@ -1,6 +1,5 @@
 import random
 
-
 #picking random word and checking answer
 lives = 6
 from hangman_art import logo, stages
@@ -19,7 +18,7 @@ flag ="_"
 gameOver = False
 while gameOver == False:
     guess = input("Chose a letter: ").lower()
-   
+    
     if guess in output:
       print(f"You already pick this letter {guess}")
     
