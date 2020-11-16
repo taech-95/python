@@ -4,8 +4,9 @@ import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-#chosing a random card
+
 def random_card():
+    #chosing a random card
     random_card = random.choice(cards)
     return random_card
 
@@ -17,6 +18,8 @@ def results(scores):
             #ace score check 
         scores.remove(11)
         scores.append(1)
+        result = 0
+        result = sum(scores)
     else:
         return result
     return result
