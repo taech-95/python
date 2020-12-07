@@ -1,7 +1,8 @@
 from turtle import Turtle
 
 ALIGN = "center"
-FONT: tuple[str, int, str] = ("Arial", 16, "bold")
+# tuple[str, int, str]
+FONT = ("Arial", 16, "bold")
 
 
 class Scoreboard(Turtle):
