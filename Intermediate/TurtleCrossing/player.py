@@ -24,5 +24,3 @@ class Player(Turtle):
         new_y = self.ycor() + 10
         self.goto(self.xcor(), new_y)
 
-    def collision(self):
-        pass
