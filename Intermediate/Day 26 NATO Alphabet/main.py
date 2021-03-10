@@ -9,7 +9,13 @@ dictionary = {row.letter : row.code for (letter, row) in df.iterrows()}
 print(dictionary)
 
 #TODO 2. Create a list of the phonetic code words from a word that the user inputs.
+while True:
+    user_input = input("Enter a word: ").upper()
+    try:   
+        answer = {dictionary[code] for code in user_input}
+    except KeyError:
+        print(KeyError("Please provide letters no numbers"))
+    else:
+        print(answer)
+        break
 
-user_input = input("Enter a word: ").upper()
-answer = {dictionary[code] for code in user_input}
-print(answer)
