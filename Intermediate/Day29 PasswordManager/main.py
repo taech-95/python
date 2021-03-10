@@ -1,17 +1,21 @@
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 
-letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+           'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
 nr_letters = random.randint(8, 10)
 nr_symbols = random.randint(2, 4)
 nr_numbers = random.randint(2, 4)
+
 
 # print(f"Your password is: {password}")
 
@@ -25,22 +29,60 @@ def generate_password():
     password = "".join(password_list)
     password_textbox.insert(0, password)
 
+
+#----------------------------SEARCH-----------------------------------------#
+def search():
+    website = website_textbox.get()
+    try:
+        with open("data.json") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo("title= Error", message="File not found error")
+    except KeyError:
+        pass
+    else:
+        if website in data:
+            email = data[website]['email']
+            password = data[website]['password']
+            messagebox.showinfo(title="Your data", message=f"Your email: {email}\nYour password: {password}")
+        else:
+            messagebox.showinfo(title="Warning", message="No data associated with looking page")
+
+
+
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
-
     email = email_textbox.get()
     website = website_textbox.get()
     password = password_textbox.get()
-    if len(email) == 0 or len(website) == 0 or len(password) == 0:
+    new_data = {
+        website: {
+            "email": email,
+            "password": password
+
+        }
+    }
+    if len(website) == 0 or len(password) == 0:
         messagebox.showerror("Warning", "Some of Data is missed, please go back and check insert")
     else:
-        output = messagebox.askokcancel(title=website, message=f" These are the details entered to a data file:\n Email: {email}, \n Password: {password}")
+        output = messagebox.askokcancel(title=website,
+                                        message=f" These are the details entered to a data file:\n Email: {email}, \n Password: {password}")
         if output:
-            with open("data.txt", "a") as file:
-                file.write(f"{website} | {email} | {password} \n")
+            try:
+                with open("data.json", "r") as file:
+                    #file.write(f"{website} | {email} | {password} \n")
+                     data = json.load(file)
+            except FileNotFoundError:
+                with open("data.json", "w") as file:
+                    json.dump(data, file, indent=4)
+            else:
+                data.update(new_data)
+                with open("data.json", "w") as file:
+                    json.dump(data, file, indent=4)
+            finally:
                 website_textbox.delete(0, END)
                 password_textbox.delete(0, END)
-
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -79,7 +121,7 @@ generate_btn.grid(row=3, column=2)
 add_btn = Button(text="Add", width=36, command=save_password)
 add_btn.grid(column=1, row=4, columnspan=2)
 
-
-
+search_btn = Button(text="Search", width=15, command=search)
+search_btn.grid(row=1, column=2)
 
 window.mainloop()
