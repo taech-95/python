@@ -1,12 +1,36 @@
 BACKGROUND_COLOR = "#B1DDC6"
 from tkinter import *
 import pandas
+import random
 
 data = pandas.read_csv("data/french_words.csv")
-print(data)
+data_dictionary = data.to_dict(orient="records")
+
+# print(data)
+
+
+def generate_card():
+    #Version 1
+    # random_word = random.randint(0, len(data_dictionary) - 1)
+    # list_of_words_french = []
+    # list_of_words_english = []
+    # for words in data_dictionary:
+    #     list_of_words_french.append(words["French"])
+    #     list_of_words_english.append(words["English"])
+    # random_french_word = list_of_words_french[random_word]
+    # random_english_word = list_of_words_english[random_word]
+    # print(random_french_word)
+    # print(random_english_word)
+    # canvas.itemconfig(word_text, text=random_french_word)
+    # canvas.itemconfig(title_text, text="French")
+    # Version 2
+    random_french_word = random.choice(data_dictionary)
+    canvas.itemconfig(word_text, text=random_french_word["French"])
+    canvas.itemconfig(title_text, text="French")
+
 window = Tk()
 window.title("Flash Card App")
-# window.minsize(300, 300)
+    # window.minsize(300, 300)
 window.minsize(width=900, height=750)
 window["bg"] = BACKGROUND_COLOR
 window["padx"] = 50
@@ -22,9 +46,11 @@ word_text = canvas.create_text(400, 275, text="Word", fill="black", font=("Arial
 wrong_image = PhotoImage(file="images/wrong.png")
 right_image = PhotoImage(file="images/right.png")
 
-btn_wrong = Button(image=wrong_image, highlightthickness=0)
-btn_wrong.grid(column=0,row=2)
+btn_wrong = Button(image=wrong_image, highlightthickness=0, command=generate_card)
+btn_wrong.grid(column=0, row=2)
 
-btn_right = Button(image=right_image, highlightthickness=0 )
-btn_right.grid(column=1,row=2)
+btn_right = Button(image=right_image, highlightthickness=0, command=generate_card)
+btn_right.grid(column=1, row=2)
+generate_card()
+
 window.mainloop()
