@@ -9,7 +9,7 @@ except FileNotFoundError:
     original_data = pandas.read_csv("data/french_words.csv")
     data_dictionary = original_data.to_dict(orient="records")
 else:
-    data_dictionary = data.to_dict(orient="records")
+    data_dictionary = data.to_dict(orient="split")
 my_timer = None
 current_card = {}
 
