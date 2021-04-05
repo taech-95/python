@@ -9,7 +9,7 @@
 # birthdays_dict = {
 #     (month, day): data_row
 # }
-#HINT 3: Then you could compare and see if today's month/day matches one of the keys in birthday_dict like this:
+# HINT 3: Then you could compare and see if today's month/day matches one of the keys in birthday_dict like this:
 # if (today_month, today_day) in birthdays_dict:
 
 # 3. If step 2 is true, pick a random letter from letter templates and replace the [NAME] with the person's actual name from birthdays.csv
@@ -23,28 +23,27 @@ import datetime as dt
 import random as rnd
 import smtplib
 
-
 my_email = "ivasik.morozov1999@gmail.com"
-password = "qaz123wertfasny"
+password = "password"
 
 dates_of_birth = pandas.read_csv("birthdays.csv")
 print(type(dates_of_birth))
-dates_of_birth_dictionary = {(data["month"], data["day"]): data for(index, data) in dates_of_birth.iterrows()}
+dates_of_birth_dictionary = {(data["month"], data["day"]): data for (index, data) in dates_of_birth.iterrows()}
 
 now = dt.datetime.now()
 month = now.month
 day_of_month = now.day
 
-letter_template1=""
-letter_template2=""
-letter_template3=""
+letter_template1 = ""
+letter_template2 = ""
+letter_template3 = ""
 
 with open("letter_templates/letter_1.txt") as letter1:
-    letter_template1=letter1.read()
+    letter_template1 = letter1.read()
 with open("letter_templates/letter_2.txt") as letter2:
-    letter_template2=letter2.read()
+    letter_template2 = letter2.read()
 with open("letter_templates/letter_3.txt") as letter3:
-    letter_template3=letter3.read()
+    letter_template3 = letter3.read()
 
 today = (month, day_of_month)
 letters_template = [letter_template1, letter_template2, letter_template3]
@@ -57,5 +56,4 @@ if today in dates_of_birth_dictionary:
         connection.login(user=my_email, password=password)
         print(letter_with_name)
         connection.sendmail(from_addr=my_email, to_addrs=birthday_person["email"],
-                                   msg=f"Subject:Happy birthday\n\n {letter_with_name}")
-
+                            msg=f"Subject:Happy birthday\n\n {letter_with_name}")
