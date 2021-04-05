@@ -23,21 +23,19 @@ import datetime as dt
 import random as rnd
 import smtplib
 
+
 my_email = "ivasik.morozov1999@gmail.com"
 password = "qaz123wertfasny"
 
-dates_of_birth = pandas.read_csv("birthdays.csv").to_dict(orient="list")
+dates_of_birth = pandas.read_csv("birthdays.csv")
 print(type(dates_of_birth))
-
-print(dates_of_birth)
+dates_of_birth_dictionary = {(data["month"], data["day"]): data for(index, data) in dates_of_birth.iterrows()}
 
 now = dt.datetime.now()
 month = now.month
-day_of_the_week = now.weekday()
+day_of_month = now.day
 
-
-
-letter_template1 = ""
+letter_template1=""
 letter_template2=""
 letter_template3=""
 
@@ -48,20 +46,16 @@ with open("letter_templates/letter_2.txt") as letter2:
 with open("letter_templates/letter_3.txt") as letter3:
     letter_template3=letter3.read()
 
-
+today = (month, day_of_month)
 letters_template = [letter_template1, letter_template2, letter_template3]
-
-
-for (key, value) in dates_of_birth.items():
-    print(value)
-    if day_of_the_week in value :
-          print(True)
-    #     random_letter = rnd.choice(letters_template)
-
-
-        # with smtplib.SMTP("smtp.gmail.com") as connection:
-        #     connection.starttls()
-        #     connection.login(user=my_email, password=password)
-        #     connection.sendmail(from_addr=my_email, to_addrs="ivasik.morozov32@yahoo.com",
-        #                         msg=f"Subject:Happy birthday\n\n Test")
+if today in dates_of_birth_dictionary:
+    birthday_person = dates_of_birth_dictionary[today]
+    random_letter = rnd.choice(letters_template)
+    letter_with_name = random_letter.replace("[NAME],", birthday_person["name"])
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(user=my_email, password=password)
+        print(letter_with_name)
+        connection.sendmail(from_addr=my_email, to_addrs=birthday_person["email"],
+                                   msg=f"Subject:Happy birthday\n\n {letter_with_name}")
 
